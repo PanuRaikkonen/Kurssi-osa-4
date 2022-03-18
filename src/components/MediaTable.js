@@ -11,7 +11,6 @@ const MediaTable = () => {
       const media = await mediaResponse.json();
       const allFiles = await Promise.all(
         media.map(async (file) => {
-          // Tee ite
           const fileResponse = await fetch(`${baseUrl}media/${file.file_id}`);
           return await fileResponse.json();
         })
