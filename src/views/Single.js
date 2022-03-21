@@ -1,7 +1,10 @@
+import {useLocation} from 'react-router-dom';
 import {mediaUrl} from '../utils/variables';
 
 const Single = () => {
-  const file = {}; // TODO in the next task: single media from props.location.state
+  const location = useLocation();
+  console.log(location);
+  const file = location.state.file; // TODO in the next task: single media from props.location.state
 
   return (
     <>
