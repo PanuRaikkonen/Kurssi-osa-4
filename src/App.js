@@ -4,6 +4,7 @@ import Nav from './components/Nav';
 import Home from './views/Home';
 import Profile from './views/Profile';
 import Single from './views/Single';
+import Login from './views/Login';
 
 const App = () => {
   return (
@@ -11,7 +12,8 @@ const App = () => {
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Nav />
       <Routes>
-        <Route path="/" element={<Home />}></Route>
+        <Route path="/" element={<Login />}></Route>
+        <Route path="/Home" element={<Home />}></Route>
         <Route path="/Profile" element={<Profile />}></Route>
         <Route path="/Single" element={<Single />}></Route>
       </Routes>
