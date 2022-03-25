@@ -1,5 +1,5 @@
 // import PropTypes from 'prop-types';
-import useMedia from '../hooks/ApiHooks';
+import {useMedia} from '../hooks/ApiHooks';
 import MediaRow from './MediaRow';
 
 const MediaTable = () => {

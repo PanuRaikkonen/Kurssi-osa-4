@@ -1,11 +1,12 @@
 import {useState} from 'react';
 
-const useForm = (callback) => {
-  const [inputs, setInputs] = useState({});
+const useForm = (callback, initState) => {
+  const [inputs, setInputs] = useState(initState);
   const HandleSubmit = (event) => {
     if (event) {
       event.preventDefault();
     }
+    callback();
   };
   const HandleInputChange = (event) => {
     event.persist();
