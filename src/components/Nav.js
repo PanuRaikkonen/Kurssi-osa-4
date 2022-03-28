@@ -1,7 +1,7 @@
 import {useContext, useEffect} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import {useUser} from '../hooks/ApiHooks';
 import {MediaContext} from '../contexts/MediaContext';
+import {useUser} from '../hooks/ApiHooks';
 
 const Nav = () => {
   const [user, setUser] = useContext(MediaContext);
@@ -13,34 +13,31 @@ const Nav = () => {
       const userData = await getUser(localStorage.getItem('token'));
       console.log(userData);
       setUser(userData);
-      navigate('/Home');
     } catch (err) {
       setUser(null);
       navigate('/');
     }
   };
-  console.log(user);
 
   useEffect(() => {
     fetchUser();
   }, []);
 
+  console.log(user);
+
   return (
     <nav>
       <ul>
         <li>
-          <Link to={'/'}>Home</Link>
+          <Link to={'/home'}>Home</Link>
         </li>
-        {user && (
+        {user?.username && (
           <>
             <li>
-              <Link to={'/Profile'}>Profile</Link>
+              <Link to={'/profile'}>Profile</Link>
             </li>
             <li>
-              <Link to={'/Single'}>Single</Link>
-            </li>
-            <li>
-              <Link to={'/Logout'}>Logout</Link>
+              <Link to={'/logout'}>Logout</Link>
             </li>
           </>
         )}

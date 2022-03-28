@@ -1,13 +1,12 @@
 // eslint-disable-next-line no-unused-vars
 import PropTypes from 'prop-types';
-import useForm from '../hooks/FormHooks';
-import {useLogin} from '../hooks/ApiHooks';
-import {useNavigate} from 'react-router-dom';
 import {useContext} from 'react';
+import {useNavigate} from 'react-router-dom';
 import {MediaContext} from '../contexts/MediaContext';
+import {useLogin} from '../hooks/ApiHooks';
+import useForm from '../hooks/FormHooks';
 
 const LoginForm = (props) => {
-  // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useContext(MediaContext);
   const alkuarvot = {
     username: '',
@@ -21,30 +20,30 @@ const LoginForm = (props) => {
     console.log('doLogin');
     try {
       const userData = await postLogin(inputs);
-      localStorage.setItem('token', userData.token);
+      console.log(userData);
       setUser(userData.user);
-      navigate('/Home');
+      localStorage.setItem('token', userData.token);
+      navigate('/home');
     } catch (err) {
       alert(err.message);
     }
   };
 
-  const {inputs, HandleInputChange, HandleSubmit} = useForm(doLogin, alkuarvot);
-  console.log(inputs);
-
+  const {inputs, handleInputChange, handleSubmit} = useForm(doLogin, alkuarvot);
+  console.log(inputs, user);
   return (
-    <form onSubmit={HandleSubmit}>
+    <form onSubmit={handleSubmit}>
       <input
         placeholder="username"
         name="username"
-        onChange={HandleInputChange}
+        onChange={handleInputChange}
         value={inputs.username}
       />
       <input
         placeholder="password"
         name="password"
         type="password"
-        onChange={HandleInputChange}
+        onChange={handleInputChange}
         value={inputs.password}
       />
       <input type="submit" value="login" />

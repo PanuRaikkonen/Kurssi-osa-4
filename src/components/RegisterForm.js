@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import PropTypes from 'prop-types';
-import useForm from '../hooks/FormHooks';
 import {useUser} from '../hooks/ApiHooks';
+import useForm from '../hooks/FormHooks';
 
 const RegisterForm = (props) => {
   const alkuarvot = {
@@ -16,8 +16,8 @@ const RegisterForm = (props) => {
   const doRegister = async () => {
     console.log('doRegister');
     try {
-      const checkUser = await getUsername(inputs.username);
-      if (checkUser.available) {
+      const checkUser = await getUsername();
+      if (checkUser) {
         const userData = await postUser(inputs);
         console.log(userData);
       }
@@ -26,38 +26,38 @@ const RegisterForm = (props) => {
     }
   };
 
-  const {inputs, HandleInputChange, HandleSubmit} = useForm(
+  const {inputs, handleInputChange, handleSubmit} = useForm(
     doRegister,
     alkuarvot
   );
   console.log(inputs);
 
   return (
-    <form onSubmit={HandleSubmit}>
+    <form onSubmit={handleSubmit}>
       <input
         placeholder="username"
         name="username"
-        onChange={HandleInputChange}
+        onChange={handleInputChange}
         value={inputs.username}
       />
       <input
         placeholder="password"
         name="password"
         type="password"
-        onChange={HandleInputChange}
+        onChange={handleInputChange}
         value={inputs.password}
       />
       <input
         placeholder="email"
         name="email"
         type="email"
-        onChange={HandleInputChange}
+        onChange={handleInputChange}
         value={inputs.email}
       />
       <input
         placeholder="full name"
         name="full_name"
-        onChange={HandleInputChange}
+        onChange={handleInputChange}
         value={inputs.full_name}
       />
       <input type="submit" value="register" />

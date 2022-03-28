@@ -2,13 +2,13 @@ import {useState} from 'react';
 
 const useForm = (callback, initState) => {
   const [inputs, setInputs] = useState(initState);
-  const HandleSubmit = (event) => {
+  const handleSubmit = (event) => {
     if (event) {
       event.preventDefault();
     }
     callback();
   };
-  const HandleInputChange = (event) => {
+  const handleInputChange = (event) => {
     event.persist();
     setInputs((inputs) => {
       return {
@@ -18,8 +18,8 @@ const useForm = (callback, initState) => {
     });
   };
   return {
-    HandleSubmit,
-    HandleInputChange,
+    handleSubmit,
+    handleInputChange,
     inputs,
   };
 };
