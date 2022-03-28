@@ -1,9 +1,10 @@
-import {useEffect, useState} from 'react';
+import {useContext, useEffect} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {useUser} from '../hooks/ApiHooks';
+import {MediaContext} from '../contexts/MediaContext';
 
 const Nav = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useContext(MediaContext);
   const {getUser} = useUser();
   const navigate = useNavigate();
 
@@ -11,14 +12,14 @@ const Nav = () => {
     try {
       const userData = await getUser(localStorage.getItem('token'));
       console.log(userData);
-      setLoggedIn(true);
+      setUser(userData);
       navigate('/Home');
     } catch (err) {
-      setLoggedIn(false);
+      setUser(null);
       navigate('/');
     }
   };
-  console.log(loggedIn);
+  console.log(user);
 
   useEffect(() => {
     fetchUser();
@@ -30,12 +31,19 @@ const Nav = () => {
         <li>
           <Link to={'/'}>Home</Link>
         </li>
-        <li>
-          <Link to={'/Profile'}>Profile</Link>
-        </li>
-        <li>
-          <Link to={'/Single'}>Single</Link>
-        </li>
+        {user && (
+          <>
+            <li>
+              <Link to={'/Profile'}>Profile</Link>
+            </li>
+            <li>
+              <Link to={'/Single'}>Single</Link>
+            </li>
+            <li>
+              <Link to={'/Logout'}>Logout</Link>
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   );
