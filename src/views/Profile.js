@@ -1,25 +1,44 @@
-import {useEffect, useState} from 'react';
-import {useUser} from '../hooks/ApiHooks';
+import {useContext, useEffect, useState} from 'react';
+import {MediaContext} from '../contexts/MediaContext';
+import {useTag} from '../hooks/ApiHooks';
+import {mediaUrl} from '../utils/variables';
 
 const Profile = () => {
-  const [user, setUser] = useState({});
-  const {getUser} = useUser();
-  const fetchUser = async () => {
-    const userData = await getUser(localStorage.getItem('token'));
-    setUser(userData);
+  const [user] = useContext(MediaContext);
+  const [avatar, setAvatar] = useState({
+    filename: 'https://placekitten.com/420',
+  });
+  const {getTag} = useTag();
+
+  const fetchAvatar = async () => {
+    if (user) {
+      const avatars = await getTag('avatar_' + user.user_id);
+      const ava = avatars.pop();
+      ava.filename = mediaUrl + ava.filename;
+      setAvatar(ava);
+    }
   };
+
   useEffect(() => {
-    fetchUser();
-  }, []);
+    fetchAvatar();
+  }, [user]);
 
   return (
     <>
       <h1>Profile</h1>
-      <ul>
-        <li>{user.username}</li>
-        <li>{user.email}</li>
-        <li>{user.full_name}</li>
-      </ul>
+      {user && (
+        <ul>
+          <li>
+            <img
+              src={avatar.filename}
+              alt={`${user.username}'s profile picture`}
+            />
+          </li>
+          <li>{user.username}</li>
+          <li>{user.email}</li>
+          <li>{user.full_name}</li>
+        </ul>
+      )}
     </>
   );
 };
