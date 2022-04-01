@@ -20,9 +20,9 @@ const RegisterForm = (props) => {
 
   const validators = {
     username: ['required', 'minStringLength: 3', 'isAvailable'],
-    password: ['required', 'minStringLength: 6'],
+    password: ['required', 'minStringLength: 5'],
+    confirm: ['required', 'isPasswordMatch'],
     email: ['required', 'isEmail'],
-    // full_name: ['optional', 'minStringLength: 2' + 'minStringLength: 2'],
   };
 
   const errorMessages = {
@@ -31,7 +31,8 @@ const RegisterForm = (props) => {
       'minimun 3 characters',
       'username already in use',
     ],
-    password: ['required field', 'minimum 6 characters'],
+    password: ['required field', 'Minimum 5 characters'],
+    confirm: ['required field', 'Passwords do not match'],
     email: ['required field', 'Enter a valid email'],
     full_name: ['optional', 'Enter a valid Full Name'],
   };
@@ -43,6 +44,7 @@ const RegisterForm = (props) => {
     try {
       const checkUser = await getUsername(inputs.username);
       if (checkUser) {
+        delete inputs.confirm;
         const userData = await postUser(inputs);
         console.log(userData);
       }
@@ -64,7 +66,23 @@ const RegisterForm = (props) => {
         return true;
       }
     });
-  }, []);
+    ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
+      // Pitkä versio
+      /*
+      if (value !== inputs.password) {
+        return false;
+      }
+      return true;
+      */
+
+      // Lyhyt versio
+      return value === inputs.password ? true : false;
+    });
+
+    return () => {
+      ValidatorForm.removeValidationRule('isAvailable');
+    };
+  }, [inputs.password]);
 
   return (
     <Grid container>
@@ -96,6 +114,17 @@ const RegisterForm = (props) => {
             value={inputs.password}
             validators={validators.password}
             errorMessages={errorMessages.password}
+          />
+          <TextValidator
+            fullWidth
+            label="retype password"
+            placeholder="retype password"
+            name="confirm"
+            type="password"
+            onChange={handleInputChange}
+            value={inputs.confirm}
+            validators={validators.confirm}
+            errorMessages={errorMessages.confirm}
           />
           <TextValidator
             fullWidth
