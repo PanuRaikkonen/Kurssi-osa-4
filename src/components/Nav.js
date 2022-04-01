@@ -16,7 +16,7 @@ import {useContext, useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {MediaContext} from '../contexts/MediaContext';
 import {useUser} from '../hooks/ApiHooks';
-import {Home, AccountCircle} from '@mui/icons-material';
+import {Home as HomeIcon, AccountCircle} from '@mui/icons-material';
 
 const Nav = () => {
   const [user, setUser] = useContext(MediaContext);
@@ -78,7 +78,7 @@ const Nav = () => {
         >
           <ListItemButton component={Link} to={'/home'}>
             <ListItemIcon>
-              <Home />
+              <HomeIcon />
             </ListItemIcon>
             <ListItemText primary="Home" />
           </ListItemButton>
