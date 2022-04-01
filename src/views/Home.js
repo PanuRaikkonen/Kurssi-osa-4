@@ -1,15 +1,13 @@
-import {Typography} from '@material-ui/core';
 import MediaTable from '../components/MediaTable';
+import {Typography} from '@mui/material';
 
 const Home = () => {
   return (
     <>
-      <>
-        <Typography component="h1" variant="h2" gutterBottom>
-          Home
-        </Typography>
-        <MediaTable />
-      </>
+      <Typography component="h1" variant="h2">
+        Home
+      </Typography>
+      <MediaTable />
     </>
   );
 };
