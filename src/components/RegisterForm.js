@@ -4,13 +4,12 @@ import {useUser} from '../hooks/ApiHooks';
 import useForm from '../hooks/FormHooks';
 import {Grid} from '@mui/material';
 import {Typography} from '@mui/material';
-// import {TextField} from '@mui/material';
 import {Button} from '@mui/material';
 import {ValidatorForm} from 'react-material-ui-form-validator';
 import {TextValidator} from 'react-material-ui-form-validator';
 import {useEffect} from 'react';
 
-const RegisterForm = (props) => {
+const RegisterForm = (props, {setToggle}) => {
   const alkuarvot = {
     username: '',
     password: '',
@@ -23,6 +22,7 @@ const RegisterForm = (props) => {
     password: ['required', 'minStringLength: 5'],
     confirm: ['required', 'isPasswordMatch'],
     email: ['required', 'isEmail'],
+    full_name: ['minStringLength: 2'],
   };
 
   const errorMessages = {
@@ -34,7 +34,7 @@ const RegisterForm = (props) => {
     password: ['required field', 'Minimum 5 characters'],
     confirm: ['required field', 'Passwords do not match'],
     email: ['required field', 'Enter a valid email'],
-    full_name: ['optional', 'Enter a valid Full Name'],
+    full_name: ['minimum 2 characters'],
   };
 
   const {postUser, getUsername} = useUser();
@@ -42,12 +42,9 @@ const RegisterForm = (props) => {
   const doRegister = async () => {
     console.log('doRegister');
     try {
-      const checkUser = await getUsername(inputs.username);
-      if (checkUser) {
-        delete inputs.confirm;
-        const userData = await postUser(inputs);
-        console.log(userData);
-      }
+      delete inputs.confirm;
+      const userData = await postUser(inputs);
+      userData && setToggle(true);
     } catch (err) {
       alert(err.message);
     }
@@ -156,6 +153,8 @@ const RegisterForm = (props) => {
   );
 };
 
-RegisterForm.propTypes = {};
+RegisterForm.propTypes = {
+  setToggle: PropTypes.func,
+};
 
 export default RegisterForm;

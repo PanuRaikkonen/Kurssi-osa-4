@@ -7,7 +7,7 @@ const Login = () => {
   const [toggle, setToggle] = useState(true);
   return (
     <>
-      {toggle ? <LoginForm /> : <RegisterForm />}
+      {toggle ? <LoginForm /> : <RegisterForm setToggle={setToggle} />}
 
       <Button
         fullWidth
