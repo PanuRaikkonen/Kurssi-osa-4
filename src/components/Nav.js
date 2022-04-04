@@ -98,6 +98,7 @@ const Nav = () => {
                 <ListItemIcon>
                   <CloudUpload />
                 </ListItemIcon>
+                <ListItemText primary="Upload" />
               </ListItemButton>
             </>
           )}
