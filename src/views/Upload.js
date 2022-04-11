@@ -23,14 +23,12 @@ const Upload = () => {
 
   const validators = {
     title: ['required', 'minStringLength: 3'],
-    description: ['required', 'minStringLength: 2'],
-    file: [],
+    description: ['minStringLength: 2'],
   };
 
   const errorMessages = {
     title: ['required field', 'minimun 3 characters'],
-    description: ['required field', 'minimum 2 characters'],
-    file: ['required field', 'Not a valid file'],
+    description: ['minimum 2 characters'],
   };
 
   const {postMedia, Loading} = useMedia();
@@ -39,7 +37,6 @@ const Upload = () => {
 
   const doUpload = async () => {
     try {
-      // Lisätään filtterit descriptionin
       const desc = {
         description: inputs.description,
         filters: filterInputs,
@@ -111,14 +108,17 @@ const Upload = () => {
           type="file"
           accept="image/*, video/*, audio/*"
           onChange={handleInputChange}
-          validators={validators.file}
-          errorMessages={errorMessages.file}
         />
 
         {Loading ? (
           <CircularProgress />
         ) : (
-          <Button type="submit" value="upload" variant="contained">
+          <Button
+            type="submit"
+            value="upload"
+            variant="contained"
+            disabled={!inputs.file}
+          >
             Upload
           </Button>
         )}
