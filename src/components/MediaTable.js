@@ -1,11 +1,14 @@
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import {CircularProgress, ImageList} from '@mui/material';
 import {useMedia} from '../hooks/ApiHooks';
 import {useWindowSize} from '../hooks/WindowHooks';
 import MediaRow from './MediaRow';
+import {useContext} from 'react';
+import {MediaContext} from '../contexts/MediaContext';
 
-const MediaTable = () => {
-  const {mediaArray, Loading} = useMedia();
+const MediaTable = ({allFiles = true}) => {
+  const {user} = useContext(MediaContext);
+  const {mediaArray, Loading, deleteMedia} = useMedia(allFiles, user?.user_id);
   const windowSize = useWindowSize();
   console.log(mediaArray);
   return (
@@ -19,7 +22,14 @@ const MediaTable = () => {
           gap={8}
         >
           {mediaArray.map((item, index) => {
-            return <MediaRow key={index} file={item} />;
+            return (
+              <MediaRow
+                key={index}
+                file={item}
+                userId={user.user_id}
+                deleteMedia={deleteMedia}
+              />
+            );
           })}
         </ImageList>
       )}
@@ -27,6 +37,6 @@ const MediaTable = () => {
   );
 };
 
-MediaTable.propTypes = {};
+MediaTable.propTypes = {allFiles: PropTypes.bool};
 
 export default MediaTable;

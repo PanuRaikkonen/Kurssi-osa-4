@@ -123,60 +123,62 @@ const Upload = () => {
           </Button>
         )}
       </ValidatorForm>
-      <Grid container>
-        <Grid item xs={6}>
-          <img
-            style={{
-              filter: `brightness(${filterInputs.brightness}%)
+      {inputs.file && (
+        <Grid container>
+          <Grid item xs={6}>
+            <img
+              style={{
+                filter: `brightness(${filterInputs.brightness}%)
               contrast(${filterInputs.contrast}%)
               saturate(${filterInputs.saturation}%)
               sepia(${filterInputs.sepia}%)`,
-            }}
-            src={preview}
-            alt="preview"
-          />
-        </Grid>
-        <Grid container>
-          <Grid item xs={3}>
-            <Slider
-              name="brightness"
-              min={0}
-              value={filterInputs.brightness}
-              max={200}
-              step={1}
-              valueLabelDisplay="on"
-              onChange={handleSliderChange}
-            />
-            <Slider
-              name="contrast"
-              min={0}
-              value={filterInputs.contrast}
-              max={200}
-              step={1}
-              valueLabelDisplay="on"
-              onChange={handleSliderChange}
-            />
-            <Slider
-              name="saturation"
-              min={0}
-              value={filterInputs.saturation}
-              max={200}
-              step={1}
-              valueLabelDisplay="on"
-              onChange={handleSliderChange}
-            />
-            <Slider
-              name="sepia"
-              min={0}
-              value={filterInputs.sepia}
-              max={200}
-              step={1}
-              valueLabelDisplay="on"
-              onChange={handleSliderChange}
+              }}
+              src={preview}
+              alt="preview"
             />
           </Grid>
+          <Grid container>
+            <Grid item xs={3}>
+              <Slider
+                name="brightness"
+                min={0}
+                value={filterInputs.brightness}
+                max={200}
+                step={1}
+                valueLabelDisplay="on"
+                onChange={handleSliderChange}
+              />
+              <Slider
+                name="contrast"
+                min={0}
+                value={filterInputs.contrast}
+                max={200}
+                step={1}
+                valueLabelDisplay="on"
+                onChange={handleSliderChange}
+              />
+              <Slider
+                name="saturation"
+                min={0}
+                value={filterInputs.saturation}
+                max={200}
+                step={1}
+                valueLabelDisplay="on"
+                onChange={handleSliderChange}
+              />
+              <Slider
+                name="sepia"
+                min={0}
+                value={filterInputs.sepia}
+                max={200}
+                step={1}
+                valueLabelDisplay="on"
+                onChange={handleSliderChange}
+              />
+            </Grid>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </>
   );
 };

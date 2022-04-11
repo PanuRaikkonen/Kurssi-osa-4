@@ -16,18 +16,20 @@ import {
 import {AccountCircle, Badge, ContactMail} from '@mui/icons-material';
 
 const Profile = () => {
-  const [user] = useContext(MediaContext);
-  const [avatar, setAvatar] = useState({
-    filename: 'https://placekitten.com/320',
-  });
+  const {user} = useContext(MediaContext);
+  const [avatar, setAvatar] = useState({});
   const {getTag} = useTag();
 
   const fetchAvatar = async () => {
-    if (user) {
-      const avatars = await getTag('avatar_' + user.user_id);
-      const ava = avatars.pop();
-      ava.filename = mediaUrl + ava.filename;
-      setAvatar(ava);
+    try {
+      if (user) {
+        const avatars = await getTag('avatar_' + user.user_id);
+        const ava = avatars.pop();
+        ava.filename = mediaUrl + ava.filename;
+        setAvatar(ava);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
