@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {useContext} from 'react';
 import {Link} from 'react-router-dom';
 import {MediaContext} from '../contexts/MediaContext';
+import {safeParseJson} from '../utils/functions';
 import {mediaUrl} from '../utils/variables';
 
 const MediaRow = ({file, userId, deleteMedia}) => {
@@ -24,24 +25,52 @@ const MediaRow = ({file, userId, deleteMedia}) => {
     }
   };
 
+  const {description, filters} = safeParseJson(file.description) || {
+    description: file.description,
+    filters: {
+      brightness: 100,
+      contrast: 100,
+      saturation: 100,
+      sepia: 0,
+    },
+  };
+
   return (
-    <ImageListItem
-      key={file.file_id}
-      component={Link}
-      to={'/single'}
-      state={{file}}
-    >
+    <ImageListItem key={file.file_id}>
       <img
         src={file.thumbnails ? mediaUrl + file.thumbnails.w320 : 'logo512.png'}
         alt={file.title}
         loading="lazy"
+        style={{
+          filters: `
+        brightness(${filters.brightness}%)
+        contrast(${filters.contrast}%)
+        saturate(${filters.saturation}%)
+        sepia(${filters.sepia}%)
+        `,
+        }}
       />
       <ImageListItemBar
         actionIcon={
           <>
+            <Button
+              component={Link}
+              to={'/single'}
+              state={{file}}
+              variant="contained"
+            >
+              View
+            </Button>
             {userId === file.user_id && (
               <>
-                <Button variant="contained">Edit</Button>
+                <Button
+                  component={Link}
+                  to={'/modify'}
+                  state={{file}}
+                  variant="contained"
+                >
+                  Edit
+                </Button>
                 <Button variant="contained" onClick={doDelete}>
                   Delete
                 </Button>
@@ -50,7 +79,7 @@ const MediaRow = ({file, userId, deleteMedia}) => {
           </>
         }
         title={file.title}
-        subtitle={file.description}
+        subtitle={description}
       />
     </ImageListItem>
   );
